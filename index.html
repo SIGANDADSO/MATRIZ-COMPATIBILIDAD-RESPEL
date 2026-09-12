@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matriz de Compatibilidad RESPEL - Taller de Motos</title>
+    <link rel="stylesheet" href="styles/styles.css" />
+  </head>
+  <body>
+    <div class="main-container">
+      <h2>Matriz de Compatibilidad de Almacenamiento RESPEL</h2>
+      <p class="sub">Compatibilidad Química para Taller de Motos</p>
+
+      <!-- EVALUADOR DIRECTO -->
+      <div class="evaluator-card" id="evaluator-card">
+        <label>Evaluador Directo de Compatibilidad:</label>
+        <div class="grid-selects">
+          <div class="form-group">
+            <select id="select-res-1">
+              <option value="">-- Seleccionar Residuo 1 --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <select id="select-res-2">
+              <option value="">-- Seleccionar Residuo 2 --</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="result-display" class="result-display">
+          <div class="result-header">
+            <div class="pictograms-preview" id="pictograms-preview"></div>
+            <div>
+              <h3 id="result-title" style="margin: 0 0 3px 0; font-size: 1em"></h3>
+              <p id="result-text" style="margin: 0; font-size: 0.88em"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL DE CONTROL -->
+      <div class="control-panel">
+        <div class="panel-group">
+          <input
+            type="text"
+            id="input-nuevo"
+            placeholder="Ej: ASERRÍN CONTAMINADO"
+            style="width: 190px"
+          />
+
+          <select id="select-clase-onu" style="width: 180px">
+            <option value="Clase 2.1">Gas Inflamable</option>
+            <option value="Clase 3">Líquido Inflamable</option>
+            <option value="Clase 4.1">Sólido Inflamable</option>
+            <option value="Clase 5.1">Comburente</option>
+            <option value="Clase 6.1">Tóxico Agudo (Calavera)</option>
+            <option value="Clase 6.2">Tóxico Salud (Efectos Crónicos)</option>
+            <option value="Clase 8">Corrosivo</option>
+            <option value="Clase 9">Varios / Misceláneo</option>
+          </select>
+
+          <button class="btn btn-add" onclick="agregarNuevoResiduo()">
+            + Sumar Residuo
+          </button>
+        </div>
+
+        <div class="panel-group">
+          <select id="select-remover" style="width: 180px">
+            <option value="">-- Seleccionar a Remover --</option>
+          </select>
+          <button class="btn btn-remove" onclick="removerResiduo()">
+            🗑️ Remover
+          </button>
+        </div>
+
+        <button class="btn btn-print" onclick="window.print()">
+          🖨️ Imprimir Matriz
+        </button>
+      </div>
+
+      <!-- MATRIZ ESCALONADA -->
+      <div class="table-wrapper">
+        <table id="matriz-sura"></table>
+
+        <div class="leyenda">
+          <div class="leyenda-item">
+            <div class="box st-verde"></div>
+            Se pueden almacenar juntos (Compatibles)
+          </div>
+          <div class="leyenda-item">
+            <div class="box st-amarillo"></div>
+            Precaución / Valorar MSDS
+          </div>
+          <div class="leyenda-item">
+            <div class="box st-rojo"></div>
+            Incompatible / Separación Física
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="scripts/scripts.js"></script>
+  </body>
+</html>
