@@ -229,7 +229,7 @@ function renderizarMatriz() {
         <img src="${listaResiduos[i].sga}" class="img-picto" alt="SGA">
       </td>`;
 
-    // Celdas Interactivas Escaladas
+    // Celdas Estáticas Escaladas (Sin evento onclick)
     for (let col = N - 1; col >= 0; col--) {
       if (col < i) {
         html += `<td class="empty-cell"></td>`;
@@ -239,7 +239,6 @@ function renderizarMatriz() {
 
         html += `<td id="cell-${i}-${col}" 
               class="cell-state st-${data.color}" 
-              onclick="cambiarEstadoClick('${listaResiduos[i].id}', '${listaResiduos[col].id}')"
               title="${listaResiduos[i].nombre} + ${listaResiduos[col].nombre}: ${data.desc}">
           </td>`;
       }
