@@ -132,48 +132,43 @@ function obtenerCompatibilidadDefecto(resA, resB) {
   const c1 = String(resA.numClase);
   const c2 = String(resB.numClase);
 
-  if (resA.id === resB.id) {
-    return { color: "verde", desc: "Compatible (V): Mismo tipo de sustancia o residuo." };
-  }
-
   const esPar = (a, b) => (c1 === a && c2 === b) || (c1 === b && c2 === a);
-  const incluye = (clases) => clases.includes(c1) || clases.includes(c2);
+  const unoEs = (a) => c1 === a || c2 === a;
 
-  if (esPar("1", "9") || esPar("7", "8")) {
-    return { color: "amarillo", desc: "Precaución (A): Posibles restricciones. Revisar FDS (Nota 1)." };
+  // 1. REGLA INCOMPATIBLE (X - ROJO)
+  const esRojo = 
+    unoEs("1") || 
+    unoEs("7") || 
+    unoEs("5.2") || 
+    (unoEs("8") && ["2.1", "3", "4.1", "4.2", "4.3", "5.1"].includes(c1 === "8" ? c2 : c1)) ||
+    (unoEs("5.1") && ["2.1", "3", "4.1", "4.2", "4.3"].includes(c1 === "5.1" ? c2 : c1));
+
+  if (esRojo) {
+    return { 
+      color: "rojo", 
+      desc: "Incompatible (X): Se requiere almacenamiento por separado según matriz." 
+    };
   }
 
-  if (esPar("2.1", "3") || esPar("2.1", "4.1")) {
-    return { color: "amarillo", desc: "Precaución (A): Requiere valorar condiciones específicas de almacenamiento." };
+  // 2. REGLA PRECAUCIÓN (A - AMARILLO)
+  // Incluye Clase 8 con Clase 9 (Baterías con residuos varios/electrónicos)
+  const esAmarillo = 
+    (unoEs("9") && ["3", "4.1", "4.2", "4.3", "8"].includes(c1 === "9" ? c2 : c1)) ||
+    (unoEs("6.1") && ["2.1", "3", "4.1"].includes(c1 === "6.1" ? c2 : c1)) ||
+    (unoEs("2.1") && ["3", "4.1"].includes(c1 === "2.1" ? c2 : c1));
+
+  if (esAmarillo) {
+    return { 
+      color: "amarillo", 
+      desc: "Precaución (A): Posibles restricciones. Requiere valorar condiciones de almacenamiento y SDS." 
+    };
   }
 
-  if (esPar("6.1", "2.1") || esPar("6.1", "3") || esPar("6.1", "4.1")) {
-    return { color: "amarillo", desc: "Precaución (A): Valorar compatibilidad individual mediante FDS (Nota 6)." };
-  }
-
-  if (esPar("4.2", "4.1") || esPar("4.3", "4.1") || esPar("4.2", "4.3")) {
-    return { color: "amarillo", desc: "Precaución (A): Posibles reactividades individuales. Consultar SDS." };
-  }
-
-  if (esPar("9", "3") || esPar("9", "4.1") || esPar("9", "4.2") || esPar("9", "4.3")) {
-    return { color: "amarillo", desc: "Precaución (A): Se pueden almacenar juntos considerando medidas preventivas." };
-  }
-
-  if (incluye(["1", "7", "5.2", "6.2"])) {
-    return { color: "rojo", desc: "Incompatible (X): Se requiere almacenar por separado." };
-  }
-
-  if (esPar("8", "2.1") || esPar("8", "3") || esPar("8", "4.1") || esPar("8", "4.2") || esPar("8", "4.3") || esPar("8", "5.1")) {
-    return { color: "rojo", desc: "Incompatible (X): Separación física obligatoria." };
-  }
-
-  if (c1 === "5.1" || c2 === "5.1") {
-    if (["2.1", "3", "4.1", "4.2", "4.3"].includes(c1 === "5.1" ? c2 : c1)) {
-      return { color: "rojo", desc: "Incompatible (X): Los comburentes no deben estar cerca de materiales inflamables." };
-    }
-  }
-
-  return { color: "verde", desc: "Compatible (V): Pueden almacenarse juntos. Verificar FDS." };
+  // 3. REGLA COMPATIBLE (V - VERDE)
+  return { 
+    color: "verde", 
+    desc: "Compatible (V): Pueden almacenarse juntos. Verificar FDS." 
+  };
 }
 
 function inicializarEstados() {
