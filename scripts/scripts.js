@@ -4,7 +4,7 @@ const SGA_SVG = {
   corrosivo: "img/corrosivo.jpg",
   toxico: "img/toxico.jpg",
   efectosCronicos: "img/toxico_efectos_cronicos.jpg",
-  gas: "img/imflamable.jpg",
+  gas: "img/inflamable.jpg",
   comburente: "img/comburente.jpg",
   explosivo: "img/explosivo.jpg",
   ambiente: "img/ambiente.jpg",
